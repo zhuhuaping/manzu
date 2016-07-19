@@ -18,6 +18,6 @@ public class Hello extends AbstractController {
 
 		ModelAndView helloView = new ModelAndView("hello");
 		helloView.addObject("HelloWorld", helloStr);
-		return helloView;  
+		return helloView;
 	}
 }
