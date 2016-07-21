@@ -15,8 +15,8 @@ public class UserComtroller {
 	private UserService userService;
 
 	@RequestMapping("/user/loginView")
-	public String loginView() {
-		return "login";
+	public ModelAndView loginView() {
+		return new ModelAndView("hello");
 	}
 
 	@RequestMapping("/user/registerView")
@@ -30,7 +30,7 @@ public class UserComtroller {
 		User u = userService.loginCheck(user);
 		if (null == u) {
 			mav.setViewName("login");
-			mav.addObject("errorMsg", "ÓÃ»§Ãû»òÃÜÂëÓÐÎó£¡");
+			mav.addObject("errorMsg", "ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 			return mav;
 		} else {
 			mav.setViewName("success");
@@ -47,7 +47,7 @@ public class UserComtroller {
 			return mav;
 		} else {
 			mav.setViewName("register");
-			mav.addObject("errorMsg", "ÓÃ»§ÃûÒÑ±»Õ¼ÓÃ£¬Çë¸ü»»£¡£¡");
+			mav.addObject("errorMsg", "ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ñ±ï¿½Õ¼ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 			return mav;
 		}
 	}
