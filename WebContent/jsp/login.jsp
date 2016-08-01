@@ -5,9 +5,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Welcome To Manzu System!</title>
+<title>Login To manzu</title>
 </head>
 <body>
-  <c:redirect url="/user/login.do" />
+  <h3>Login To manzu</h3>
+  <h4>${message}</h4>
+  <form action="/user/loginDeal.do" method="post">
+    <span>Name:</span> <input type="text" name="name" /><br> <span>Password:</span>
+    <input type="password" name="password" />
+    <button>Submit</button>
+  </form>
 </body>
 </html>

@@ -6,5 +6,5 @@ public interface UserDao {
 
 	public void register(User user);
 
-	public User findUserByUserName(final String userName);
+	public User findUserByName(final String userName);
 }

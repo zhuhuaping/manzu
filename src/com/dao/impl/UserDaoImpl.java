@@ -25,15 +25,16 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User findUserByUserName(String userName) {
-		String sqlStr = "select id,uname,pwd from user where uname=?";
-		final User user = new User();
-		jdbcTemplate.query(sqlStr, new Object[] { userName }, new RowCallbackHandler() {
+	public User findUserByName(String name) {
+		String sqlStr = "SELECT ID,NAME,PASSWORD FROM tb_user WHERE NAME = ?";
+		final User user = null;
+		jdbcTemplate.query(sqlStr, new Object[] { name }, new RowCallbackHandler() {
 			@Override
 			public void processRow(ResultSet rs) throws SQLException {
+				User user = new User();
 				user.setId(rs.getInt("id"));
-				user.setName(rs.getString("uname"));
-				user.setPassword(rs.getString("pwd"));
+				user.setName(rs.getString("name"));
+				user.setPassword(rs.getString("password"));
 			}
 		});
 		return user;

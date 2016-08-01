@@ -1,10 +1,14 @@
 package com.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.common.CheckUtils;
+import com.common.Consts;
 import com.model.User;
 import com.service.UserService;
 
@@ -14,29 +18,33 @@ public class UserComtroller {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping("/user/loginView")
-	public ModelAndView loginView() {
-		return new ModelAndView("hello");
+	@RequestMapping("/user/login")
+	public String loginView() {
+		return "login";
+	}
+
+	@RequestMapping("/user/loginDeal")
+	public ModelAndView login(User u) {
+		ModelAndView mav = new ModelAndView();
+		Map<Object, Object> checkRst = userService.loginCheck(u);
+
+		User user = (User) checkRst.get(Consts.USER);
+		String msg = (String) checkRst.get(Consts.MSG);
+
+		if (!CheckUtils.isNull(user)) {
+			mav.setViewName("login");
+			mav.addObject(Consts.USER, user);
+		} else {
+			mav.setViewName("login");
+		}
+
+		mav.addObject(Consts.MSG, msg);
+		return mav;
 	}
 
 	@RequestMapping("/user/registerView")
 	public String registerView() {
 		return "register";
-	}
-
-	@RequestMapping("/user/login")
-	public ModelAndView login(User user) {
-		ModelAndView mav = new ModelAndView();
-		User u = userService.loginCheck(user);
-		if (null == u) {
-			mav.setViewName("login");
-			mav.addObject("errorMsg", "�û�������������");
-			return mav;
-		} else {
-			mav.setViewName("success");
-			mav.addObject("user", u);
-			return mav;
-		}
 	}
 
 	@RequestMapping("/user/register")
