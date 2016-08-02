@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.common.CheckUtils;
 import com.common.Consts;
+import com.common.MD5Utils;
+import com.common.Enum.Reg_Rst;
 import com.dao.UserDao;
 import com.model.User;
 import com.service.UserService;
@@ -19,21 +21,22 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 
 	@Override
-	public Map<Object, Object> loginCheck(User u) {
-		User user = userDao.findUserByName(u.getName());
-		//System.out.println("id=" + user.getId() + ",  name=" + user.getName() + ",  password=" + user.getPassword());
-
+	public Map<Object, Object> login(User inputUser) {
 		Map<Object, Object> checkRst = new HashMap<Object, Object>();
 
+		User dbUser = userDao.findUserByName(inputUser.getName());
 		String dbPwd = "";
 		String inputPwd = "";
-		if (!CheckUtils.isNull(user)) {
-			dbPwd = user.getPassword();
-			if (!CheckUtils.isNull(u)) {
-				inputPwd = u.getPassword();
+
+		if (!CheckUtils.isNull(dbUser) && dbUser.getId() > 0) {
+			dbPwd = dbUser.getPassword();
+
+			if (!CheckUtils.isNull(inputUser)) {
+				inputPwd = inputUser.getPassword();
 			}
-			if (dbPwd.equals(inputPwd)) {
-				checkRst.put(Consts.USER, user);
+
+			if (CheckUtils.isStrEquals(dbPwd, MD5Utils.encode(inputPwd))) {
+				checkRst.put(Consts.USER, dbUser);
 				checkRst.put(Consts.MSG, "Login Successed!");
 			} else {
 				checkRst.put(Consts.MSG, "Password Input Error!");
@@ -46,15 +49,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean register(User user) {
-		User u = userDao.findUserByName(user.getName());
-		if (u.getId() == 0) {
+	public Map<Object, Object> register(User user) {
+		Map<Object, Object> checkRst = new HashMap<Object, Object>();
+
+		User dbUser = userDao.findUserByName(user.getName());
+
+		if (dbUser.getId() == 0) {
 			userDao.register(user);
-			return true;
+			checkRst.put(Consts.REG_RST, Reg_Rst.SUCCESS);
+			checkRst.put(Consts.MSG, "Register Successed!");
 		} else {
-			System.out
-					.println("id=" + user.getId() + ",  name=" + user.getName() + ",  password=" + user.getPassword());
-			return false;
+			checkRst.put(Consts.REG_RST, Reg_Rst.FAIL);
+			checkRst.put(Consts.MSG, "The User Already Exists!");
 		}
+
+		return checkRst;
 	}
 }

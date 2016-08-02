@@ -5,9 +5,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Welcome To Manzu System!</title>
+<title>Welcome To manzu System!</title>
 </head>
 <body>
-  <c:redirect url="/user/login.do" />
+  <%-- <c:redirect url="/user/login.do" /> --%>
+  <h3>Welcome To manzu System!</h3>
+  <h4>
+    <a href="/user/login.do">Login</a>
+  </h4>
+  <h4>
+    <a href="/user/register.do">Register</a>
+  </h4>
 </body>
 </html>

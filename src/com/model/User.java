@@ -9,8 +9,7 @@ public class User implements Serializable {
 	private String password;
 	private String gender;
 	private String mobile;
-	private String addr;
-	private String createDatetime;
+	private String address;
 
 	public int getId() {
 		return id;
@@ -52,20 +51,12 @@ public class User implements Serializable {
 		this.mobile = mobile;
 	}
 
-	public String getAddr() {
-		return addr;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setAddr(String addr) {
-		this.addr = addr;
-	}
-
-	public String getCreateDatetime() {
-		return createDatetime;
-	}
-
-	public void setCreateDatetime(String createDatetime) {
-		this.createDatetime = createDatetime;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }
