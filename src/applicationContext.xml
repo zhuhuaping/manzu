@@ -24,6 +24,7 @@
   <context:component-scan base-package="com.dao" />
 
   <!-- 开启注解 -->
+  <mvc:default-servlet-handler />
   <mvc:annotation-driven />
 
   <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
@@ -122,5 +123,7 @@
     <property name="maxUploadSize" value="10485760000" />
     <property name="maxInMemorySize" value="40960" />
   </bean>
+
+  <context:component-scan base-package="com" />
 
 </beans>

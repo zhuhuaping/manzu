@@ -2,6 +2,8 @@ package com.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,45 +22,49 @@ public class UserComtroller {
 	private UserService userService;
 
 	@RequestMapping("/user/login")
-	public String loginView() {
+	public String login() {
 		return "login";
 	}
 
 	@RequestMapping("/user/loginDeal")
-	public ModelAndView login(User inputUser) {
+	public ModelAndView loginDeal(User inputUser, HttpSession session) {
 		Map<Object, Object> checkRst = userService.login(inputUser);
 		User dbUser = (User) checkRst.get(Consts.USER);
 		String msg = (String) checkRst.get(Consts.MSG);
 
+		session.setAttribute(Consts.MSG, msg);
+
 		ModelAndView mav = new ModelAndView();
 		if (!CheckUtils.isNull(dbUser)) {
-			mav.setViewName("login");
+			mav = new ModelAndView("redirect:/home.do");
 			mav.addObject(Consts.USER, dbUser);
 		} else {
 			mav.setViewName("login");
 		}
-		mav.addObject(Consts.MSG, msg);
+
 		return mav;
 	}
 
 	@RequestMapping("/user/register")
-	public String registerView() {
+	public String register() {
 		return "register";
 	}
 
 	@RequestMapping("/user/registerDeal")
-	public ModelAndView register(User user) {
+	public ModelAndView registerDeal(User user) {
 		Map<Object, Object> checkRst = userService.register(user);
 		Object registerRst = checkRst.get(Consts.REG_RST);
 		String msg = (String) checkRst.get(Consts.MSG);
 
 		ModelAndView mav = new ModelAndView();
+		mav.addObject(Consts.MSG, msg);
+
 		if (registerRst.equals(Reg_Rst.SUCCESS)) {
-			mav.setViewName("index");
+			mav = new ModelAndView("redirect:/user/login.do");
 		} else if (registerRst.equals(Reg_Rst.FAIL)) {
 			mav.setViewName("register");
 		}
-		mav.addObject(Consts.MSG, msg);
+
 		return mav;
 	}
 }
